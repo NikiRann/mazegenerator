@@ -3,13 +3,12 @@
 #include <stdio.h>
 #include <cstring>
 
-
-
 struct Point
 {
     int x;
     int y;
 };
+
 void constructMaze(char *_maze[], int &_sizeY, int &_sizeX) {
     for (int i = 0; i < _sizeY; i ++) {
         _maze[i] = new char[_sizeX];
@@ -26,6 +25,7 @@ void constructMaze(char *_maze[], int &_sizeY, int &_sizeX) {
 
     }
 }
+
 void printMaze(char *_maze[], int &_sizeY, int &_sizeX) {
     for (int i = 0; i < _sizeY; i ++) {
         std :: cout << _maze[i] << '\n';
