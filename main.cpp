@@ -141,9 +141,9 @@ int generateDirection(bool *possibleDirs) {
 // 3 - down
 // 4 - left
 
-void generatePathRecursive(std::string maze[], Point start, int _sizeY, int _sizeX, std :: stack <Point> &path, std :: vector <std :: vector <bool>> visited) {
+void generatePathRecursive(std::string maze[], Point start, int _sizeY, int _sizeX, std :: stack <Point> &path, std :: vector <std :: vector <bool>> visited) { // The whole magic happens here
 
-
+    // https://en.wikipedia.org/wiki/Backtracking
     visited[start.y / 2][start.x / 2] = true;
     bool validDirection = false;
     
@@ -154,7 +154,7 @@ void generatePathRecursive(std::string maze[], Point start, int _sizeY, int _siz
 
         int direction = generateDirection(dirPointer);
         
-        if (direction == 1) {
+        if (direction == 1) { // We check if there are possible neighbours which aren't visited by us
             if (stepUp(maze, start, 2, _sizeY, _sizeX, visited)) {
                 validDirection = true;
                 path.push(Point{start.y - 2, start.x});
@@ -204,10 +204,10 @@ void generatePathRecursive(std::string maze[], Point start, int _sizeY, int _siz
 
 }
 
-std :: string formatLastRow(std :: string maze[], int _sizeX, int _sizeY) {
-    std :: string result (_sizeX / 2 + 1, '#');
+std :: string formatLastRow(std :: string maze[], int _sizeX, int _sizeY) { // Sadly we need to randomize the last row because Y size is an even number and our last row is impossible to be randomized by the algorithm
+    std :: string result (_sizeX / 2 + 1, '#'); // But it doesn't matter that much, because it is still fully randomized by this function 
     result[0] = '|';
-    result[_sizeX / 2] = '|';
+    result[_sizeX / 2] = '|'; // Every SizeX is divided by 2 because it we work in a size / 2 dimension and we print it 2 times bigger due to the facing down passages which need to be 2 symbols wide
     for (int i = 1; i < (_sizeX / 2 - 4); i += 2) {
         if (maze[_sizeY - 3][i] == ' ')
             if (rand() % 2)
@@ -215,6 +215,10 @@ std :: string formatLastRow(std :: string maze[], int _sizeX, int _sizeY) {
     }
     return result;
 }
+
+// Using Graph theory and recursive backtracking is very difficult with this inconsistency in width so i made it happen just by scaling everything by 2 when exporting the results
+// It still looks amazing and works 100 % 
+
 
 int main() {
     
